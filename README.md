@@ -9,5 +9,5 @@
 - Rust
 - Lua
 - Zig
-- Sacala
+- Scala
 - Golang
