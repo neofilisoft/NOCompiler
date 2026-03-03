@@ -1,13 +1,14 @@
 # Neofilisoft Open Compiler
 # Code Editor & Compiler (IDE)
 - Python
-- C++
+- C/C++
 - C#
 - Java
 - JavaScript
-- SQL
+- PHP
+- Ruby
 - Rust
 - Lua
 - Zig
 - Scala
-- Golang
+- Go
