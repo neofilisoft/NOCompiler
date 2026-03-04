@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NOCompiler</title>
+  <style>
+    :root { --bg:#f6f1e8; --panel:#fffdf8; --line:#d6ccbc; --text:#1b1b1b; --muted:#635d52; --accent:#175d63; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:Consolas,monospace; background:linear-gradient(135deg,#efe6d7,var(--bg)); color:var(--text); }
+    main { max-width:1180px; margin:0 auto; padding:24px; }
+    .layout { display:grid; grid-template-columns:1.1fr 0.9fr; gap:18px; }
+    .panel { background:rgba(255,253,248,.95); border:1px solid var(--line); border-radius:16px; padding:16px; box-shadow:0 14px 28px rgba(0,0,0,.06); }
+    h1 { margin:0 0 10px; font-size:2.6rem; }
+    p, label, #status { color:var(--muted); }
+    select, textarea, input, button { width:100%; font:inherit; border-radius:12px; border:1px solid var(--line); padding:12px; }
+    textarea { min-height:360px; resize:vertical; }
+    button { border:0; background:var(--accent); color:#fff; cursor:pointer; font-weight:700; margin-top:12px; }
+    pre { min-height:360px; margin:0; white-space:pre-wrap; background:#201f1b; color:#f4efe5; border-radius:12px; padding:12px; overflow:auto; }
+    iframe { width:100%; min-height:220px; border:1px solid var(--line); border-radius:12px; background:#fff; }
+    @media (max-width:900px) { .layout { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="panel" style="margin-bottom:18px;">
+      <h1>NOCompiler</h1>
+      <p>C++ core IDE with a local HTTP API.</p>
+      <div id="status">Ready.</div>
+    </div>
+    <div class="layout">
+      <section class="panel">
+        <label for="sessionId">Session Id</label>
+        <input id="sessionId" value="web_session">
+        <label for="language" style="margin-top:12px;display:block;">Language</label>
+        <select id="language"></select>
+        <label for="editor" style="margin-top:12px;display:block;">Source</label>
+        <textarea id="editor"></textarea>
+        <button id="run">Run</button>
+        <button id="refresh" style="background:#734434;">Refresh Status</button>
+      </section>
+      <section class="panel">
+        <label>Output</label>
+        <pre id="output">Booting...</pre>
+        <label style="margin-top:12px;display:block;">HTML Preview</label>
+        <iframe id="preview"></iframe>
+      </section>
+    </div>
+  </main>
+  <script>
+    const snippets = {
+      python: "print('Hello from NOCompiler')",
+      c: "#include <stdio.h>\n\nint main(void) {\n    puts(\"Hello from C\");\n    return 0;\n}",
+      cpp: "#include <iostream>\n\nint main() {\n    std::cout << \"Hello from C++\\n\";\n    return 0;\n}",
+      csharp: "using System;\n\nclass Program {\n    static void Main() {\n        Console.WriteLine(\"Hello from C#\");\n    }\n}",
+      java: "public class Main {\n    public static void main(String[] args) {\n        System.out.println(\"Hello from Java\");\n    }\n}",
+      javascript: "console.log('Hello from JavaScript');",
+      html: "<!DOCTYPE html><html><body><h1>Hello from HTML</h1><p>Rendered by the C++ preview path.</p></body></html>",
+      rust: "fn main() {\n    println!(\"Hello from Rust\");\n}",
+      lua: "print('Hello from Lua')",
+      zig: "const std = @import(\"std\");\n\npub fn main() !void {\n    try std.io.getStdOut().writer().print(\"Hello from Zig\\n\", .{});\n}",
+      scala: "object Main extends App {\n    println(\"Hello from Scala\")\n}",
+      ruby: "puts 'Hello from Ruby'",
+      go: "package main\n\nimport \"fmt\"\n\nfunc main() {\n    fmt.Println(\"Hello from Go\")\n}",
+      php: "<?php\necho 'Hello from PHP';\n"
+    };
+    const el = id => document.getElementById(id);
+    const language = el('language');
+    const editor = el('editor');
+    const output = el('output');
+    const preview = el('preview');
+    const status = el('status');
+    function syncTemplate() { editor.value = snippets[language.value] || ''; preview.srcdoc = ''; }
+    async function loadLanguages() {
+      const res = await fetch('/api/languages');
+      const data = await res.json();
+      language.innerHTML = '';
+      (data.languages || []).forEach(item => {
+        const option = document.createElement('option');
+        option.value = item.id;
+        option.textContent = item.name;
+        language.appendChild(option);
+      });
+      language.value = 'cpp';
+      syncTemplate();
+      output.textContent = 'Ready.';
+    }
+    async function runCode() {
+      status.textContent = 'Running...';
+      preview.srcdoc = '';
+      const res = await fetch('/api/run', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ session_id: el('sessionId').value.trim(), language: language.value, code: editor.value })
+      });
+      const data = await res.json();
+      status.textContent = data.success ? 'Completed.' : 'Failed.';
+      output.textContent = data.output || data.error || '(no output)';
+      if (language.value === 'html' && data.success) { preview.srcdoc = editor.value; }
+    }
+    async function refreshStatus() {
+      const id = encodeURIComponent(el('sessionId').value.trim());
+      const res = await fetch('/api/status?session_id=' + id);
+      const data = await res.json();
+      status.textContent = data.success ? (data.state + ' / exit ' + data.exit_code) : (data.error || 'Missing session');
+      if (data.success) { output.textContent = data.output || data.error || '(no output)'; }
+    }
+    language.addEventListener('change', syncTemplate);
+    el('run').addEventListener('click', runCode);
+    el('refresh').addEventListener('click', refreshStatus);
+    loadLanguages().catch(error => { output.textContent = String(error); status.textContent = 'API unavailable.'; });
+  </script>
+</body>
+</html>
