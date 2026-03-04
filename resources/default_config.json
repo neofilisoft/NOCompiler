@@ -1,0 +1,7 @@
+﻿{
+  "name": "NOCompiler",
+  "version": "4.0.0",
+  "defaultHost": "127.0.0.1",
+  "defaultPort": 8080,
+  "executionMode": "synchronous"
+}
