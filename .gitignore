@@ -1,0 +1,14 @@
+node_modules/
+vscode-source/
+dist/
+build/_cmake_build/
+build/Release/
+*.node
+.DS_Store
+Thumbs.db
+*.log
+__pycache__/
+*.pyc
+*.pycache
+.env
+.forge-builder.json
