@@ -1,0 +1,13 @@
+﻿{
+  "uiFontFamily": "'Inter', 'Inter Variable', 'Segoe UI', system-ui, sans-serif",
+  "editorFontFamily": "'Inter', 'Inter Variable', 'Segoe UI', sans-serif",
+  "terminalFontFamily": "'Inter', 'Inter Variable', 'Cascadia Mono', monospace",
+  "editorFontSize": 13,
+  "terminalFontSize": 13,
+  "uiFontSize": 13,
+  "tabFontSize": 12.5,
+  "titlebarFontSize": 12,
+  "lineHeight": 22,
+  "letterSpacing": 0.1,
+  "fontLigatures": true
+}

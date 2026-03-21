@@ -1,0 +1,67 @@
+﻿From 0002 Mon Sep 17 00:00:00 2001
+From: NVECode <nvecode@example.com>
+Subject: [PATCH 2/2] vecode: default theme, font, and branding
+
+Sets Default Dark Modern as the default color theme, uses Inter as the
+default editor font, and removes the Get Started welcome tab on first
+launch.
+
+---
+ src/vs/workbench/browser/workbench.contribution.ts | 20 ++++++------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
+
+diff --git a/src/vs/workbench/browser/workbench.contribution.ts b/src/vs/workbench/browser/workbench.contribution.ts
+index aaaaaa1..ccccccc 100644
+--- a/src/vs/workbench/browser/workbench.contribution.ts
++++ b/src/vs/workbench/browser/workbench.contribution.ts
+@@ -190,31 +190,31 @@ const registry = Registry.as<IConfigurationRegistry>(ConfigurationExtensions.Co
+ 			properties: {
+ 				'workbench.colorTheme': {
+ 					type: 'string',
+-					default: 'Default Dark Modern',
++					default: 'Default Dark Modern',
+ 					description: localize('colorTheme', "Specifies the color theme."),
+ 					enum: colorThemeSettingEnum,
+ 				},
+ 				'workbench.startupEditor': {
+ 					'type': 'string',
+-					'default': 'welcomePage',
++					'default': 'none',
+ 					'enum': ['none', 'welcomePage', 'readme', 'newUntitledFile'],
+ 					'description': localize('startupEditor', "Controls editor shown at startup."),
+ 				},
+ 			}
+ 		});
+ 
+ 		registry.registerConfiguration({
+ 			id: 'editor',
+ 			properties: {
+ 				'editor.fontFamily': {
+ 					type: 'string',
+-					default: "Consolas, 'Courier New', monospace",
++					default: "'Inter', 'Inter Variable', 'Segoe UI', sans-serif",
+ 					markdownDescription: localize('fontFamily', "Controls the font family."),
+ 				},
+ 				'editor.fontSize': {
+ 					type: 'number',
+-					default: 14,
++					default: 13,
+ 					minimum: 6, maximum: 100,
+ 				},
+ 				'editor.lineHeight': {
+ 					type: 'number',
+-					default: 0,
++					default: 22,
+ 				},
+ 				'editor.letterSpacing': {
+ 					type: 'number',
+-					default: 0,
++					default: 0.1,
+ 				},
+ 				'editor.fontLigatures': {
+ 					anyOf: [{ type: 'boolean' }, { type: 'string' }],
+-					default: false,
++					default: true,
+ 				},
+ 			}
+ 		});

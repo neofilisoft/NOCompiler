@@ -1,0 +1,468 @@
+﻿/*
+ * vecode-overrides.css
+ * Injected via win.webContents.insertCSS() into VSCodium's workbench.
+ * Goal: Cursor-IDE aesthetic â€” minimal, no chrome noise, editor-first.
+ */
+
+/* â”€â”€ Fonts â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+:root {
+  --f-bg:          #0d1117;
+  --f-surface:     #0d1117;
+  --f-surface2:    #111520;
+  --f-border:      #161b24;
+  --f-border2:     #1e2536;
+  --f-text:        #c8d3e6;
+  --f-text2:       #4a5568;
+  --f-text3:       #2a3040;
+  --f-accent:      #4a9eff;
+  --f-font-ui:     'Inter', 'Inter Variable', 'Segoe UI', system-ui, sans-serif;
+  --f-font-mono:   'Inter', 'Inter Variable', 'Cascadia Code', 'Fira Code', monospace;
+}
+
+/* â”€â”€ Base â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+body, .monaco-workbench {
+  font-family: var(--f-font-ui) !important;
+  background: var(--f-bg) !important;
+}
+
+/* â”€â”€ Hide VSCodium's own titlebar (replaced by titlebar.js) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.monaco-workbench .part.titlebar {
+  display: none !important;
+}
+
+/* â”€â”€ Activity bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.monaco-workbench .part.activitybar {
+  background: var(--f-bg) !important;
+  border-right: 1px solid var(--f-border) !important;
+  width: 44px !important;
+}
+.monaco-workbench .part.activitybar .composite-bar {
+  gap: 0 !important;
+}
+.monaco-workbench .part.activitybar .action-item .action-label {
+  padding: 9px !important;
+  margin: 2px 5px !important;
+  border-radius: 6px !important;
+  color: var(--f-text3) !important;
+  transition: color .15s, background .15s !important;
+}
+.monaco-workbench .part.activitybar .action-item:hover .action-label {
+  background: var(--f-border2) !important;
+  color: var(--f-text) !important;
+}
+.monaco-workbench .part.activitybar .action-item.checked .action-label {
+  background: var(--f-border2) !important;
+  color: var(--f-text) !important;
+}
+/* Active left-edge indicator */
+.monaco-workbench .part.activitybar .action-item.checked::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 50%; transform: translateY(-50%);
+  width: 2px; height: 14px;
+  background: var(--f-accent);
+  border-radius: 0 2px 2px 0;
+}
+/* Hide bottom gear settings icon â€” access via Command Palette */
+.monaco-workbench .part.activitybar .action-item[title="Manage"],
+.monaco-workbench .part.activitybar .action-item[aria-label="Manage"] {
+  display: none !important;
+}
+/* Badge */
+.monaco-workbench .part.activitybar .badge .badge-content {
+  background: var(--f-accent) !important;
+  font-size: 9px !important;
+  min-width: 14px !important;
+  height: 14px !important;
+  border-radius: 7px !important;
+  border: none !important;
+}
+
+/* â”€â”€ Side bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.monaco-workbench .part.sidebar {
+  background: var(--f-bg) !important;
+  border-right: 1px solid var(--f-border) !important;
+}
+.monaco-workbench .part.sidebar .title {
+  font-family: var(--f-font-ui) !important;
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  letter-spacing: .1em !important;
+  text-transform: uppercase !important;
+  color: var(--f-text2) !important;
+  padding: 8px 12px !important;
+  background: var(--f-bg) !important;
+}
+.monaco-workbench .part.sidebar .composite.title {
+  border-bottom: 1px solid var(--f-border) !important;
+}
+
+/* File tree */
+.monaco-workbench .explorer-viewlet .monaco-list-row {
+  font-family: var(--f-font-ui) !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  color: var(--f-text2) !important;
+  border-radius: 4px !important;
+  margin: 0 5px !important;
+  padding: 0 !important;
+  height: 22px !important;
+}
+.monaco-workbench .explorer-viewlet .monaco-list-row:hover {
+  background: var(--f-border) !important;
+  color: var(--f-text) !important;
+}
+.monaco-workbench .explorer-viewlet .monaco-list-row.selected,
+.monaco-workbench .explorer-viewlet .monaco-list-row.focused {
+  background: var(--f-border2) !important;
+  color: var(--f-text) !important;
+  outline: none !important;
+}
+/* Folder / file icon size */
+.monaco-workbench .explorer-viewlet .monaco-icon-label .label-name {
+  font-size: 13px !important;
+  line-height: 22px !important;
+}
+
+/* â”€â”€ Tab bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.monaco-workbench .part.editor .title.tabs {
+  background: var(--f-bg) !important;
+  border-bottom: 1px solid var(--f-border) !important;
+  height: 34px !important;
+}
+.monaco-workbench .tab {
+  height: 33px !important;
+  font-family: var(--f-font-ui) !important;
+  font-size: 12.5px !important;
+  font-weight: 400 !important;
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 2px solid transparent !important;
+  color: var(--f-text2) !important;
+  padding: 0 16px !important;
+  transition: color .12s !important;
+  outline: none !important;
+}
+.monaco-workbench .tab:hover {
+  color: var(--f-text) !important;
+  background: var(--f-border) !important;
+}
+.monaco-workbench .tab.active {
+  color: var(--f-text) !important;
+  border-bottom-color: var(--f-accent) !important;
+  background: transparent !important;
+}
+/* Remove all tab borders / dividers */
+.monaco-workbench .tab::after,
+.monaco-workbench .tab::before,
+.monaco-workbench .tab-border-top-container,
+.monaco-workbench .tab-border-bottom-container {
+  display: none !important;
+}
+/* Modified dot */
+.monaco-workbench .tab .tab-close .codicon-circle-filled {
+  color: var(--f-accent) !important;
+  font-size: 8px !important;
+}
+
+/* â”€â”€ Editor â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.monaco-editor, .monaco-editor .overflow-guard {
+  border-radius: 0 !important;
+}
+.monaco-editor .view-lines {
+  font-family: var(--f-font-mono) !important;
+}
+.monaco-editor .margin,
+.monaco-editor .glyph-margin {
+  background: var(--f-bg) !important;
+}
+.monaco-editor .line-numbers {
+  font-family: var(--f-font-mono) !important;
+  font-size: .78em !important;
+  color: var(--f-text3) !important;
+  letter-spacing: .01em !important;
+}
+.monaco-editor .current-line ~ .line-numbers { color: var(--f-text2) !important; }
+.monaco-editor .cursor { border-color: var(--f-accent) !important; }
+
+/* â”€â”€ Breadcrumb â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.monaco-workbench .breadcrumbs-container {
+  background: var(--f-bg) !important;
+  border-bottom: 1px solid var(--f-border) !important;
+  height: 24px !important;
+  padding: 0 10px !important;
+}
+.monaco-workbench .breadcrumb-item {
+  font-family: var(--f-font-ui) !important;
+  font-size: 11.5px !important;
+  color: var(--f-text2) !important;
+}
+.monaco-workbench .breadcrumb-item:hover { color: var(--f-text) !important; }
+
+/* â”€â”€ Status bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.monaco-workbench .part.statusbar {
+  background: var(--f-bg) !important;
+  border-top: 1px solid var(--f-border) !important;
+  height: 22px !important;
+}
+.monaco-workbench .statusbar-item {
+  font-family: var(--f-font-ui) !important;
+  font-size: 11px !important;
+  color: var(--f-text2) !important;
+  padding: 0 8px !important;
+  transition: background .1s !important;
+}
+.monaco-workbench .statusbar-item:hover {
+  background: var(--f-border2) !important;
+  color: var(--f-text) !important;
+}
+/* Remove per-item background colors â€” keep it flat */
+.monaco-workbench .statusbar-item[style*="background-color"] {
+  background-color: transparent !important;
+}
+/* Git branch item â€” subtle accent */
+.monaco-workbench .statusbar-item .codicon-source-control-view-icon {
+  color: var(--f-accent) !important;
+  opacity: .7 !important;
+}
+/* Remote item */
+.monaco-workbench .statusbar-item.status-bar-remote-item {
+  background: transparent !important;
+  color: var(--f-accent) !important;
+}
+
+/* â”€â”€ Bottom panel â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.monaco-workbench .part.panel {
+  background: var(--f-bg) !important;
+  border-top: 1px solid var(--f-border) !important;
+}
+.monaco-workbench .part.panel .composite.title {
+  background: var(--f-bg) !important;
+  border-bottom: 1px solid var(--f-border) !important;
+  height: 30px !important;
+}
+/* Panel tabs */
+.monaco-workbench .part.panel .title-label h2 {
+  font-family: var(--f-font-ui) !important;
+  font-size: 11.5px !important;
+  font-weight: 500 !important;
+  letter-spacing: .01em !important;
+  text-transform: none !important;
+  color: var(--f-text2) !important;
+}
+.monaco-workbench .part.panel .title-label.active h2 {
+  color: var(--f-text) !important;
+  border-bottom: 1.5px solid var(--f-accent) !important;
+}
+
+/* Terminal */
+.xterm {
+  font-family: var(--f-font-mono) !important;
+  font-size: 12.5px !important;
+  padding: 4px 8px !important;
+}
+.xterm-viewport { background: var(--f-bg) !important; }
+
+/* â”€â”€ Command palette & quick input â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.quick-input-widget {
+  background: var(--f-surface2) !important;
+  border: 1px solid var(--f-border2) !important;
+  border-radius: 10px !important;
+  box-shadow:
+    0 0 0 1px var(--f-border2),
+    0 20px 60px rgba(0,0,0,.7) !important;
+  top: 14% !important;
+  overflow: hidden !important;
+}
+.quick-input-box .input {
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid var(--f-border2) !important;
+  border-radius: 0 !important;
+  font-family: var(--f-font-ui) !important;
+  font-size: 13px !important;
+  color: var(--f-text) !important;
+  height: 44px !important;
+  padding: 0 14px !important;
+}
+.quick-input-box .input::placeholder { color: var(--f-text2) !important; }
+.quick-input-list {
+  padding: 4px 6px 6px !important;
+}
+.quick-input-list .monaco-list-row {
+  font-family: var(--f-font-ui) !important;
+  font-size: 12.5px !important;
+  border-radius: 5px !important;
+  padding: 0 8px !important;
+  height: 30px !important;
+  color: var(--f-text2) !important;
+}
+.quick-input-list .monaco-list-row:hover,
+.quick-input-list .monaco-list-row.focused {
+  background: var(--f-border2) !important;
+  color: var(--f-text) !important;
+  outline: none !important;
+}
+.quick-input-list .monaco-highlighted-label .highlight {
+  color: var(--f-accent) !important;
+  font-weight: 600 !important;
+  background: none !important;
+}
+
+/* â”€â”€ Suggest widget â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.monaco-editor .suggest-widget {
+  background: var(--f-surface2) !important;
+  border: 1px solid var(--f-border2) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,.5) !important;
+  font-family: var(--f-font-ui) !important;
+  font-size: 12.5px !important;
+  overflow: hidden !important;
+}
+.monaco-editor .suggest-widget .monaco-list-row {
+  font-family: var(--f-font-ui) !important;
+}
+.monaco-editor .suggest-widget .monaco-list-row.focused {
+  background: var(--f-border2) !important;
+  outline: none !important;
+}
+.monaco-editor .suggest-widget .monaco-highlighted-label .highlight {
+  color: var(--f-accent) !important;
+  font-weight: 600 !important;
+}
+
+/* â”€â”€ Hover widget â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.monaco-editor .hover-widget {
+  background: var(--f-surface2) !important;
+  border: 1px solid var(--f-border2) !important;
+  border-radius: 7px !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,.5) !important;
+  font-family: var(--f-font-ui) !important;
+  font-size: 12.5px !important;
+}
+
+/* â”€â”€ Find widget â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.monaco-editor .find-widget {
+  background: var(--f-surface2) !important;
+  border: 1px solid var(--f-border2) !important;
+  border-radius: 8px !important;
+  top: 8px !important;
+  right: 14px !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,.4) !important;
+  font-family: var(--f-font-mono) !important;
+}
+
+/* â”€â”€ Context menu â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.context-view .monaco-menu {
+  background: var(--f-surface2) !important;
+  border: 1px solid var(--f-border2) !important;
+  border-radius: 8px !important;
+  padding: 4px !important;
+  box-shadow: 0 10px 40px rgba(0,0,0,.6) !important;
+  font-family: var(--f-font-ui) !important;
+  font-size: 12.5px !important;
+}
+.context-view .action-item .action-menu-item {
+  border-radius: 4px !important;
+  color: var(--f-text2) !important;
+  padding: 0 8px !important;
+  height: 26px !important;
+}
+.context-view .action-item .action-menu-item:hover {
+  background: var(--f-border2) !important;
+  color: var(--f-text) !important;
+}
+.context-view .action-item .keybinding {
+  font-family: var(--f-font-ui) !important;
+  font-size: 11px !important;
+  color: var(--f-text3) !important;
+}
+.context-view hr.separator {
+  border-color: var(--f-border) !important;
+  margin: 3px 0 !important;
+}
+
+/* â”€â”€ Notifications â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.notification-toast {
+  background: var(--f-surface2) !important;
+  border: 1px solid var(--f-border2) !important;
+  border-radius: 9px !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,.5) !important;
+  font-family: var(--f-font-ui) !important;
+  font-size: 12.5px !important;
+}
+.notification-list-item-message {
+  color: var(--f-text) !important;
+  font-size: 12.5px !important;
+}
+
+/* â”€â”€ Scrollbars â€” nearly invisible â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.monaco-scrollable-element > .scrollbar > .slider {
+  background: var(--f-border2) !important;
+  border-radius: 4px !important;
+  opacity: .4 !important;
+  transition: opacity .2s !important;
+}
+.monaco-scrollable-element > .scrollbar:hover > .slider,
+.monaco-scrollable-element > .scrollbar > .slider.active {
+  opacity: .8 !important;
+}
+::-webkit-scrollbar       { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--f-border2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--f-text3); }
+
+/* â”€â”€ Minimap â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.minimap { background: var(--f-bg) !important; }
+.minimap-slider { background: var(--f-border) !important; }
+.minimap-slider:hover { background: var(--f-border2) !important; }
+
+/* â”€â”€ Diff editor â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.monaco-editor .line-insert { background: rgba(74,158,255,.05) !important; }
+.monaco-editor .line-delete { background: rgba(255,85,85,.05)  !important; }
+.monaco-editor .char-insert { background: rgba(74,158,255,.15) !important; }
+.monaco-editor .char-delete { background: rgba(255,85,85,.15)  !important; }
+
+/* â”€â”€ Peek view â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.peekview-widget {
+  border: 1px solid var(--f-border2) !important;
+  border-radius: 7px !important;
+  overflow: hidden !important;
+}
+.peekview-widget .peekview-title {
+  background: var(--f-surface2) !important;
+  font-family: var(--f-font-ui) !important;
+}
+.peekview-widget .peekview-content { background: var(--f-bg) !important; }
+
+/* â”€â”€ Settings editor â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.settings-editor {
+  font-family: var(--f-font-ui) !important;
+  background: var(--f-bg) !important;
+}
+.setting-item-label { font-weight: 500 !important; }
+.setting-item-description { color: var(--f-text2) !important; font-size: 12px !important; }
+
+/* â”€â”€ Keybinding labels â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.keybinding-label {
+  background: var(--f-border) !important;
+  border: 1px solid var(--f-border2) !important;
+  border-radius: 4px !important;
+  color: var(--f-text2) !important;
+  font-family: var(--f-font-ui) !important;
+  font-size: 10.5px !important;
+}
+
+/* â”€â”€ Focus ring â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+*:focus-visible {
+  outline: 1.5px solid var(--f-accent) !important;
+  outline-offset: 1px !important;
+}
+
+/* â”€â”€ Remove gradient noise on panel resize handle â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.monaco-sash { background: var(--f-border) !important; }
+.monaco-sash.active,
+.monaco-sash:hover { background: var(--f-accent) !important; opacity: .5 !important; }
+
+
+

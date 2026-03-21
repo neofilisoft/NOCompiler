@@ -1,0 +1,42 @@
+﻿{
+  "name": "vecode-theme",
+  "displayName": "NVECode Dark",
+  "description": "NVECode bundled theme and defaults",
+  "version": "1.0.2",
+  "publisher": "nvecode",
+  "engines": {
+    "nvecode": "^1.0.2",
+    "vscode": "^1.87.0"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "contributes": {
+    "themes": [
+      {
+        "label": "NVECode Dark",
+        "uiTheme": "vs-dark",
+        "path": "./themes/vecode-dark.json"
+      }
+    ],
+    "configurationDefaults": {
+      "workbench.colorTheme": "Default Dark Modern",
+      "workbench.startupEditor": "none",
+      "workbench.editor.showTabs": true,
+      "workbench.editor.enablePreview": true,
+      "workbench.editor.enablePreviewFromQuickOpen": true,
+      "workbench.editor.tabSizing": "fit",
+      "workbench.editor.pinnedTabSizing": "normal",
+      "workbench.editor.wrapTabs": false,
+      "workbench.editor.highlightModifiedTabs": true,
+      "workbench.editor.limit.enabled": false,
+      "editor.fontFamily": "'Inter', 'Inter Variable', 'Segoe UI', sans-serif",
+      "editor.fontSize": 13,
+      "editor.lineHeight": 22,
+      "editor.letterSpacing": 0.1,
+      "editor.fontLigatures": true,
+      "terminal.integrated.fontFamily": "Inter, Inter Variable, Cascadia Mono, monospace",
+      "terminal.integrated.fontSize": 13
+    }
+  }
+}

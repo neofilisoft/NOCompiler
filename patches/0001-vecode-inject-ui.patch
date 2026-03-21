@@ -1,0 +1,48 @@
+﻿From 0001 Mon Sep 17 00:00:00 2001
+From: NVECode <nvecode@example.com>
+Subject: [PATCH 1/2] vecode: inject custom titlebar and CSS
+
+Injects vecode-overrides.css and titlebar.js into VSCodium's
+desktop workbench entrypoint so NVECode UI chrome loads on every start.
+
+---
+ src/vs/workbench/electron-sandbox/desktop.main.ts | 22 ++++++++++++++
+ 1 file changed, 22 insertions(+)
+
+diff --git a/src/vs/workbench/electron-sandbox/desktop.main.ts b/src/vs/workbench/electron-sandbox/desktop.main.ts
+index aaaaaa1..bbbbbbb 100644
+--- a/src/vs/workbench/electron-sandbox/desktop.main.ts
++++ b/src/vs/workbench/electron-sandbox/desktop.main.ts
+@@ -48,6 +48,28 @@ class DesktopMain extends Disposable {
+ 	async open(): Promise<void> {
+ 		performance.mark('code/didStartRenderer');
+ 
++		// â”€â”€ NVECode: load custom titlebar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
++		// Titlebar is a universal macOS-style traffic-light bar (all platforms).
++		// Loaded early so it appears before the workbench paints.
++		(function loadVecodeTitlebar() {
++			const s = document.createElement('script');
++			s.id  = 'vecode-titlebar-loader';
++			// Path is relative to the workbench HTML file in out/vs/workbench/
++			s.src = '../../renderer/titlebar.js';
++			s.async = false;
++			document.head.appendChild(s);
++		})();
++
++		// â”€â”€ NVECode: load CSS overrides â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
++		(function loadVecodeCss() {
++			const l = document.createElement('link');
++			l.id   = 'vecode-css-overrides';
++			l.rel  = 'stylesheet';
++			l.href = '../../renderer/vecode-overrides.css';
++			document.head.appendChild(l);
++		})();
++
+ 		// Browser code loading
+ 		await domContentLoaded(getWindowId(window), getActiveDocument());
+
+
+
+
+
+
