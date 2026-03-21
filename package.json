@@ -1,0 +1,189 @@
+{
+  "name": "nvecode",
+  "version": "1.0.2",
+  "description": "NVECode — Neofilisoft Visual Editor Code",
+  "main": "src/main/main.js",
+  "author": "Your Name <you@example.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/neofilisoft/nvecode",
+  "scripts": {
+    "start": "cross-env NVECODE_DEV=1 electron .",
+    "dev": "python scripts/dev.py",
+    "build": "python scripts/build.py",
+    "build:win": "python scripts/build.py --platform win",
+    "build:mac": "python scripts/build.py --platform mac",
+    "build:linux": "python scripts/build.py --platform linux",
+    "dist": "electron-builder",
+    "dist:win": "electron-builder --win",
+    "dist:mac": "electron-builder --mac",
+    "dist:linux": "electron-builder --linux",
+    "native:gyp": "node-gyp rebuild",
+    "native:cmake": "cmake -B build/_cmake_build -S build -DCMAKE_BUILD_TYPE=Release && cmake --build build/_cmake_build --config Release",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "dependencies": {
+    "node-addon-api": "^7.1.0",
+    "adm-zip": "^0.5.16"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "electron": "^29.0.0",
+    "electron-builder": "^24.13.0",
+    "node-gyp": "^10.1.0"
+  },
+  "build": {
+    "appId": "com.neofilisoft.nvecode",
+    "productName": "NVECode",
+    "copyright": "Copyright © 2024 NVECode contributors",
+    "files": [
+      "src/**",
+      "extensions/**",
+      "product.json",
+      "build/Release/*.node",
+      "font-size/**"
+    ],
+    "extraResources": [
+      {
+        "from": "resources/",
+        "to": "resources/"
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "resources/icons/icon.ico",
+      "publisherName": "Neofilisoft"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "NVECode",
+      "installerIcon": "resources/icons/icon.ico",
+      "uninstallerIcon": "resources/icons/icon.ico",
+      "differentialPackage": true,
+      "include": "resources/installer-open-with-vecode.nsh"
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "universal"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "universal"
+          ]
+        }
+      ],
+      "icon": "resources/icons/icon.icns",
+      "category": "public.app-category.developer-tools",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "resources/entitlements.mac.plist",
+      "entitlementsInherit": "resources/entitlements.mac.plist",
+      "darkModeSupport": true
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb",
+        "rpm"
+      ],
+      "icon": "resources/icons",
+      "category": "Development",
+      "desktop": {
+        "Name": "NVECode",
+        "Comment": "Neofilisoft Visual Editor Code",
+        "Keywords": "editor;ide;code;programming;",
+        "Categories": "Development;TextEditor;IDE;",
+        "StartupWMClass": "nvecode"
+      }
+    },
+    "directories": {
+      "buildResources": "resources",
+      "output": "dist"
+    },
+    "publish": null,
+    "fileAssociations": [
+      {
+        "ext": [
+          "js",
+          "ts",
+          "jsx",
+          "tsx",
+          "html",
+          "css",
+          "scss",
+          "less",
+          "json",
+          "md",
+          "py",
+          "c",
+          "cpp",
+          "h",
+          "hpp",
+          "cs",
+          "java",
+          "go",
+          "rs",
+          "rb",
+          "php",
+          "sh",
+          "bash",
+          "ps1",
+          "sql",
+          "xml",
+          "yaml",
+          "yml",
+          "toml",
+          "lua",
+          "swift",
+          "kt",
+          "dart",
+          "r",
+          "jl",
+          "pl",
+          "hs",
+          "fs",
+          "vb",
+          "m",
+          "mm",
+          "graphql",
+          "cshtml",
+          "hbs",
+          "pug",
+          "jade",
+          "coffee",
+          "clj",
+          "erl",
+          "ex",
+          "exs",
+          "scala",
+          "zig"
+        ],
+        "name": "NVECode Source File",
+        "description": "Open source files with NVECode",
+        "role": "Editor"
+      }
+    ]
+  }
+}
