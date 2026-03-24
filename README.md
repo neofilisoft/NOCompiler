@@ -16,6 +16,6 @@ On-going
 - etc
 # Extensions
 
-Build
-'![Uploading image.png…]()
-'
+## Build
+```npm install```
+```python scripts/build.py --platform win --arch x64```
